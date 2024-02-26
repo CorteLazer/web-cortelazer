@@ -1,0 +1,83 @@
+.card {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 8px;
+    margin: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+    max-width: 400px; /* ajusta el tamaño máximo del contenedor según tus necesidades */
+  }
+  
+  .card-title {
+    font-size: 1em;
+    font-weight: bold;
+  }
+  
+  .card-body {
+    margin-top: 8px;
+  }
+  
+  .materials-images {
+    width: 100%;
+    max-width: 150px; /* ajusta el tamaño máximo de la imagen según tus necesidades */
+    display: block;
+    margin: 0 auto;
+  }
+  
+  .card-text {
+    margin-top: 8px;
+  }
+  
+  .badge {
+    display: inline-block;
+    padding: 4px 6px;
+    background-color: rgb(221, 2, 64)!important;
+    color: #fff;
+    border-radius: 4px;
+    margin-right: 4px;
+    margin-bottom: 4px;
+  }
+  .material-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: left;
+    margin-left: 10%;
+  }
+  .materials-description-body {
+      max-width: 30%;
+      background-color: #fff;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      padding: 8px;
+      margin: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      text-align: justify;
+      font-size: 1.2em;
+      margin-right: 12vw;
+      margin-left: 8vw;
+    }
+
+  @media screen and (max-width: 768px) {
+    .material-list {
+      display: block;
+      position: relative;
+      margin: 0 auto;
+    }
+    .materials-description-body {
+      max-width: 80%;
+      display: block;
+      position: relative;
+      margin: 0 auto;
+    }
+    .row {
+      display: block;
+      position: relative;
+    }
+    .card {
+      max-width: 80%;
+      display: block;
+      position: relative;
+      margin: 0 auto;
+    }
+    
+  }

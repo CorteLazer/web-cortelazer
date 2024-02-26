@@ -1,0 +1,105 @@
+#logo {
+    /* Se le pone un tamaño que sera responsive */
+    width: 7vw;
+}
+
+#navbar-container {
+    height: 7vw;
+    background-color: #ffffff;
+    /* Se añade una linea inferior gris */
+    border-bottom: 1px solid #ccc;
+}
+
+#topics-container {
+    /* Se centran los links */
+    display: flex;
+    justify-content:space-evenly;
+    align-items: center;
+    width: 50vw;
+    height: 100%;
+}
+.links-navbvar {
+    color: black;
+
+}
+
+#login-container {
+    /* Se centran los links */
+    display: flex;
+    justify-content: flex-end;
+    
+}
+
+.login {
+    background-color: white;
+    padding: 0.5vw;
+    margin-right: 5%;
+    border-color: #ccc;
+    border-style: none;
+    /* Se le pone shadow al boton */
+    box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.75);
+    width: 10vw;
+}
+
+.login:hover {
+    background-color: #ccc;
+    cursor: pointer;
+}
+
+.profile {
+    background-color: rgb(0, 0, 0);
+    color: white;
+    padding: 0.5vw;
+    border-color: #ccc;
+    border-style: none;
+    /* Se le pone shadow al boton */
+    box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.75);
+}
+
+#profile:hover {
+    background-color: #ccc;
+    cursor: pointer;
+}
+
+@media screen and (max-width: 768px) {
+    #logo {
+        width: 30vw;
+    }
+
+    #responsive-navbar-nav {
+        z-index: 2;
+        color: black;
+        background-color: rgb(255, 255, 255);
+        padding: 5%;
+    }
+
+    #navbar-container {
+        height: 30vw;
+        border-bottom: 1px solid #ccc;
+        background-color: #ffffff; /* Agregado para mantener el fondo blanco en dispositivos móviles */
+    }
+    
+    #topics-container {
+        width: 80vw;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding-top: 10px; /* Añadido espacio en la parte superior para separar del borde superior */
+    }
+
+    .links-navbvar {
+        margin-bottom: 10px; /* Espaciado entre los enlaces */
+    }
+    
+    #login-container {
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .login, .profile {
+        width: 50vw;
+        position: block;
+        margin: 0 auto;
+        margin-top: 10px; /* Añadido espacio entre los botones */
+    }
+}

@@ -1,0 +1,9 @@
+{
+  "routes": [
+    { "handle": "filesystem" },
+    {
+      "src": "/(Sobre-Nosotros|Servicios|Cotizando|Perfil|Iniciar-sesion|Registrarse|Preguntas-frecuentes)?",
+      "dest": "/index.html"
+    }
+  ]
+}

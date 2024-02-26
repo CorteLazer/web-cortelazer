@@ -1,0 +1,40 @@
+.login-container {
+    max-width: 300px;
+    margin: auto;
+    text-align: center;
+    padding: 3%;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 2rem;
+    margin-top: 25vh;
+    margin-bottom: 25vh;
+  }
+  
+  .login-label {
+    font-size: 18px;
+    font-weight: bold;
+    display: block;
+    margin-bottom: 5px;
+  }
+  
+  .login-input {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    box-sizing: border-box;
+  }
+  
+  .login-button {
+    background-color: #000000; /* Color de fondo similar al de Instagram */
+    color: #fff; /* Texto en color blanco */
+    padding: 10px;
+    border: none;
+    width: 100%;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+  }
+  
+  .login-button:hover {
+    background-color: #3f4c8b; /* Cambia el color de fondo al pasar el ratón sobre el botón */
+  }
+  

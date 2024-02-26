@@ -1,0 +1,178 @@
+.titulo-parte-1 {
+  /* uppercase */
+    text-transform: uppercase;
+    font-weight: 900;
+    font-size: 8vw;
+    margin-left: 1%;
+}
+.titulo-parte-2 {
+  /* uppercase */
+    text-transform: uppercase;
+    font-weight: 900;
+    font-size: 8vw;
+    color: rgb(255, 255, 255);
+    background-color: rgb(0, 0, 0);
+    margin-left: 2%;
+}
+.titulo-parte-2-fondo {
+  /* uppercase */
+    text-transform: uppercase;
+    font-weight: 900;
+    font-size: 8vw;
+    color: rgb(255, 255, 255);
+    background-color: rgb(0, 0, 0);
+}
+.contenido-about {
+   display: flex;
+  flex-direction: row;
+  text-transform: none;
+  font-size: large;
+  padding: 5%;
+  font-weight: 500;
+}
+.contenido-about-letra-1 {
+  margin-right: 20%;
+  text-align: justify;
+}
+
+.about-image-1 {
+  width: 30%;
+  object-fit: cover;
+  margin-top: -10%;
+  margin-right: 10%;
+  margin-bottom: 5%;
+}
+
+.about-image-2 {
+  width: 30%;
+  object-fit: cover;
+  margin-top: -2%;
+  margin-right: 20%;
+  margin-left: 5%;
+  margin-bottom: 5%;
+}
+
+.contenido-about-letra-2 {
+  margin-right: 5%;
+  text-align: justify;
+}
+
+.boton-cotizar {
+  /* Se centra el boton */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* Se le da un color de fondo */
+  background-color: rgb(255, 255, 255);
+  /* Se le da un color de letra */
+  font-size: 3vw;
+  font-weight: 600;
+  color: rgb(0, 0, 0);
+  border-radius: 2rem;
+  border: none;
+  padding: 1% 20%;
+}
+
+.button-cotizar-container {
+  /* Se centra el boton */
+  display: flex;
+  margin: 0 40%;
+  justify-content: center;
+  align-items: center;
+  border-radius: 2rem;
+  border: none;
+
+}
+
+@media screen and (max-width: 768px) {
+  .titulo-parte-1 {
+    /* uppercase */
+      text-transform: uppercase;
+      font-weight: 900;
+      font-size: 8vw;
+      margin-left: 1%;
+  }
+  .titulo-parte-2 {
+    /* uppercase */
+      text-transform: uppercase;
+      font-weight: 900;
+      font-size: 8vw;
+      color: rgb(255, 255, 255);
+      background-color: rgb(0, 0, 0);
+      margin-left: 2%;
+  }
+  .titulo-parte-2-fondo {
+    /* uppercase */
+      text-transform: uppercase;
+      font-weight: 900;
+      font-size: 8vw;
+      color: rgb(255, 255, 255);
+      background-color: rgb(0, 0, 0);
+  }
+  .contenido-about {
+    display: flex;
+    flex-direction: column;
+    text-transform: none;
+    font-size: large;
+    padding: 5%;
+    font-weight: 500;
+  }
+  .contenido-about-letra-1 {
+    margin-right: 0%;
+    text-align: justify;
+  }
+  .about-image-1 {
+    width: 100%;
+    object-fit: cover;
+    margin-top: 0%;
+    margin-right: 0%;
+    margin-bottom: 5%;
+  }
+  .about-image-2 {
+    width: 100%;
+    object-fit: cover;
+    margin-top: 0%;
+    margin-right: 0%;
+    margin-left: 0%;
+    margin-bottom: 5%;
+  }
+  .contenido-about-letra-2 {
+    margin-right: 0%;
+    text-align: justify;
+  }
+
+  .boton-cotizar {
+    /* Se centra el boton */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* Se le da un color de fondo */
+    background-color: rgb(255, 255, 255);
+    /* Se le da un color de letra */
+    font-size: 6vw;
+    font-weight: 600;
+    color: rgb(0, 0, 0);
+    border-radius: 2rem;
+    border: none;
+    margin: 0 30%;
+    padding: 10%;
+  }
+
+  .button-cotizar-container {
+    /* Se centra el boton */
+    display: flex;
+    margin: 0 40%;
+    justify-content: center;
+    align-items: center;
+    border-radius: 2rem;
+    border: none;
+  
+  }
+}
+
+/* hover para el boton */
+.boton-cotizar:hover {
+  background-color: rgb(221, 2, 64);
+  color: white;
+  transition: 0.5s;
+}
