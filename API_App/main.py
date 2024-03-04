@@ -23,6 +23,7 @@ app.add_middleware(
 
 @app.get("/price/{id}/{material}/{thickness}/{amount}")
 def get_price(id:str, material:str, thickness:str, amount:int):
+    thickness = thickness.replace("x", "/")
     filePath = os.path.join(os.path.dirname(os.path.abspath(__file__)), "Files", f"{id}.dxf")
     dxf = DXFAnalyzer(filePath)
     info:Material = MATERIALS.get_material(material, thickness)

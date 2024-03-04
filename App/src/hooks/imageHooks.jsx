@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
 
-export const APIHOST = "https://improved-adventure-g4466g46j776fv9jp-8000.app.github.dev/";
+export const APIHOST = "https://opulent-fiesta-5gg5g9pvwx9g3qj9-8000.app.github.dev/";
 
 export function useSetImage(){
     const [getId, setId] = useState("");
@@ -48,7 +48,8 @@ export function useGetValue({getId}){
             return;
         }
         (async ()=>{
-            const response = await fetch(`${APIHOST}price/${getId}/${getExtra.material}/${getExtra.thickness}/${getExtra.amount}`)
+            const response = await fetch(`${APIHOST}price/${getId}/${getExtra.material}/${getExtra.thickness.replace
+            ('/', 'x')}/${getExtra.amount}`)
             .catch((e)=>{console.log(e)});
             if(!response.ok){
                 alert("upps un error del servidor");
