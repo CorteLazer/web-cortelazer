@@ -9,6 +9,12 @@ MATERIALS:MaterialLibrary = MaterialLibrary()
 
 app = FastAPI()
 
+if not os.path.exists(os.path.join(os.path.dirname(os.path.abspath(__file__)), "Files")):
+    os.mkdir(os.path.join(os.path.dirname(os.path.abspath(__file__)), "Files"))
+
+if not os.path.exists(os.path.join(os.path.dirname(os.path.abspath(__file__)), "Images")):
+    os.mkdir(os.path.join(os.path.dirname(os.path.abspath(__file__)), "Images"))
+
 origins = ["*"]
 
 app.add_middleware(
