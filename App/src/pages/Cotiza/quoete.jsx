@@ -5,13 +5,20 @@ import './Cotiza.css'
 import { useMaterial } from '../../hooks/materialHooks'
 import { v4 as uuidv4 } from 'uuid';
 import { useGetImage, useGetValue, useDeleteImage } from '../../hooks/imageHooks'
+import { PaymentProvider, paymentContext } from '../../hooks/paymentProvider'
+import { PaymentButton } from '../../components/payment/paymentButton'
 
+const Cotiza = () => {
+  return(
+    <PaymentProvider>
+      <CotizaComponent />
+    </PaymentProvider>
+  );
+}
 
-
-const Cotiza = (props) => {
-  const {getId, setFile} = useContext(globalContext);
-  const {getValue, getMessage, setExtra} = useGetValue({getId});
-  const URL = useGetImage({getId});
+function CotizaComponent(){
+  const {getId, setFile, getValue, getMessage, setExtra, URL} = useContext(globalContext);
+  const {setString} = useContext(paymentContext);
   const DELETEIMAGE = useDeleteImage({getId});
   const {materialNames, getMaterial, getSymbol, getThickness, setMaterial} = useMaterial();
   useEffect(() => {
@@ -95,6 +102,7 @@ const Cotiza = (props) => {
             <button type="button" className="cotiza-button button" onClick={uploadHandle}>
               Checkout
             </button>
+            <PaymentButton />
           </div>
         </div>
       </div>
@@ -102,5 +110,4 @@ const Cotiza = (props) => {
     </form>
   )
 }
-
 export default Cotiza

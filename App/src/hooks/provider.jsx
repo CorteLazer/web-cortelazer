@@ -18,7 +18,8 @@ export function Provider({children}){
             setFile,
             getValue,
             setExtra,
-            getMessage
+            getMessage,
+            URL
         }}>
             {children}
         </globalContext.Provider>
