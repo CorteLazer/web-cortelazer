@@ -1,9 +1,10 @@
 from fastapi import FastAPI, UploadFile
 import os
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import JSONResponse, FileResponse
+from fastapi.responses import JSONResponse, FileResponse, PlainTextResponse
 from uuid import uuid4
 from Refactorizacion import DXFAnalyzer, MaterialLibrary, Material, Calculator
+from hashlib import sha256
 
 MATERIALS:MaterialLibrary = MaterialLibrary()
 
@@ -79,3 +80,7 @@ async def create_image(uploaded: UploadFile):
     except:
         return JSONResponse(content={"message":"the file was not process"}, status_code=400)
     
+@app.get("/price/{reference}/{mount}")
+async def getPriceSha256(reference:str, mount:str):
+    mensage = f"{reference}{mount}COPprod_integrity_g3doQdg46HaUXWzgahtDKPFYWoFxkkSe"
+    return PlainTextResponse(content=sha256(mensage.encode()).hexdigest(), status_code=200)
