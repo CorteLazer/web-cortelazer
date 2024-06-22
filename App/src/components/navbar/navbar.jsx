@@ -20,7 +20,7 @@ function AppNavbar() {
               <Nav.Link className='links-navbvar' href="/Servicios">Servicios</Nav.Link>
               <Nav.Link className='links-navbvar' href="/Preguntas-frecuentes">Preguntas frecuentes</Nav.Link>
             </Nav>
-            <div id='login-container'>
+            {/* <div id='login-container'>
               <Nav.Link href="/Iniciar-sesion" className="text-center">
               <button className="login" >
                 Iniciar Sesión
@@ -31,7 +31,7 @@ function AppNavbar() {
                   Perfil
                 </button>
               </Nav.Link>
-            </div>
+            </div> */}
           </Navbar.Collapse>
         </Container>
       </Navbar>
