@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { APIHOST } from "./imageHooks";
 
 export function useHash(){
     const [getString, setString] = useState("");
@@ -19,4 +20,16 @@ export function useHash(){
         setString,
         getHash
     }
+}
+
+export function useSha256Back(getPrice, getHash){
+    const [getSecret, setSecret] = useState("");
+    useEffect(()=>{
+        if(getHash !== "" && getPrice > 0)
+            (async ()=>{
+                const result = await fetch(`${APIHOST}price/${getHash}/${getPrice}`);
+                setSecret(await result.text());
+            })()
+    }, [getHash, getPrice]);
+    return getSecret;
 }
