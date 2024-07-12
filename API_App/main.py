@@ -10,6 +10,9 @@ MATERIALS:MaterialLibrary = MaterialLibrary()
 
 app = FastAPI()
 
+fiat = os.getenv("FIAT")
+integrityKey = os.getenv("INTEGRITY_KEY")
+
 if not os.path.exists(os.path.join(os.path.dirname(os.path.abspath(__file__)), "Files")):
     os.mkdir(os.path.join(os.path.dirname(os.path.abspath(__file__)), "Files"))
 
@@ -82,5 +85,5 @@ async def create_image(uploaded: UploadFile):
     
 @app.get("/price/{reference}/{mount}")
 async def getPriceSha256(reference:str, mount:str):
-    mensage = f"{reference}{mount}COPprod_integrity_g3doQdg46HaUXWzgahtDKPFYWoFxkkSe"
+    mensage = f"{reference}{mount}{fiat}{integrityKey}"
     return PlainTextResponse(content=sha256(mensage.encode()).hexdigest(), status_code=200)
