@@ -80,7 +80,10 @@ function CotizaComponent(){
                 <select id="thickness">
                   <option value="None" hidden disabled selected>Espesor</option>
                   {getThickness.map((item)=>{
-                    return(<option key={uuidv4()} value={item}>{item}</option>);
+                    const thickness = document.getElementById("thickness").value;
+                    if(thickness !== item)
+                      return(<option key={uuidv4()} value={item}>{item}</option>);
+                    return(<option key={uuidv4()} value={item} selected>{item}</option>);
                   })}
                 </select>
               </div>
@@ -98,7 +101,7 @@ function CotizaComponent(){
             {getMessage}
           </div>
           <div className="cotiza-container15">
-            <span>Total: {getValue}</span>
+            <span>Total COP: ${getValue/100}</span>
             <button type="button" className="cotiza-button button" onClick={uploadHandle}>
               Checkout
             </button>

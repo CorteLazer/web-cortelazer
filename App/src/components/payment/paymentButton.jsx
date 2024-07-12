@@ -22,7 +22,7 @@ export function PaymentButton() {
             script.setAttribute("data-render", "button");
             script.setAttribute("data-public-key", "pub_prod_5j8jB2eRvmIupQbnjIkvDmgyCdOoOKT1");
             script.setAttribute("data-currency", "COP");
-            script.setAttribute("data-amount-in-cents", Math.floor(getValue*1000));
+            script.setAttribute("data-amount-in-cents", getValue);
             script.setAttribute("data-reference", getHash);
             script.setAttribute("data-signature:integrity", sha256);
             script.setAttribute("id", "paymentButton");

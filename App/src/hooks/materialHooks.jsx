@@ -13,7 +13,7 @@ const VALUES = {
         thickness:["14", "12", "1/8", "3/16", "1/4", "5/16", "3/8", "1/2"]
     },
     "ACERO INOXIDABLE":{
-        symbol:"HR",
+        symbol:"INOX",
         thickness:["20", "18", "16", "14", "12", "1/8", "3/16"]
     },
 }

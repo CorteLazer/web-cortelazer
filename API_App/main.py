@@ -5,6 +5,7 @@ from fastapi.responses import JSONResponse, FileResponse, PlainTextResponse
 from uuid import uuid4
 from Refactorizacion import DXFAnalyzer, MaterialLibrary, Material, Calculator
 from hashlib import sha256
+from math import ceil
 
 MATERIALS:MaterialLibrary = MaterialLibrary()
 
@@ -39,11 +40,12 @@ def get_price(id:str, material:str, thickness:str, amount:int):
     info:Material = MATERIALS.get_material(material, thickness)
     if info == None:
         info = MaterialLibrary.get_material_from_dicts(material, thickness)
+        print(material, thickness)
         if info == None:
             return JSONResponse(content={"message":"the material or the thickness not found"}, status_code=400)
         MATERIALS.add_material(info)
     calculator = Calculator(dxf, MATERIALS)
-    price:float = calculator.calculate_price(info, amount)
+    price:float = ceil(calculator.calculate_price(info, amount)*100)
     print(price)
     return JSONResponse(content={"id":id, "price":price, "message":f"Area: {calculator.dxf_analyzer.getArea()}\nPerimetro: {calculator.dxf_analyzer.calculate_perimeter()}"}, status_code=200)
     
