@@ -1,13 +1,18 @@
 from fastapi import FastAPI, UploadFile
 import os
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import JSONResponse, FileResponse
+from fastapi.responses import JSONResponse, FileResponse, PlainTextResponse
 from uuid import uuid4
 from Refactorizacion import DXFAnalyzer, MaterialLibrary, Material, Calculator
+from hashlib import sha256
+from math import ceil
 
 MATERIALS:MaterialLibrary = MaterialLibrary()
 
 app = FastAPI()
+
+fiat = os.getenv("FIAT")
+integrityKey = os.getenv("INTEGRITY_KEY")
 
 if not os.path.exists(os.path.join(os.path.dirname(os.path.abspath(__file__)), "Files")):
     os.mkdir(os.path.join(os.path.dirname(os.path.abspath(__file__)), "Files"))
@@ -35,11 +40,12 @@ def get_price(id:str, material:str, thickness:str, amount:int):
     info:Material = MATERIALS.get_material(material, thickness)
     if info == None:
         info = MaterialLibrary.get_material_from_dicts(material, thickness)
+        print(material, thickness)
         if info == None:
             return JSONResponse(content={"message":"the material or the thickness not found"}, status_code=400)
         MATERIALS.add_material(info)
     calculator = Calculator(dxf, MATERIALS)
-    price:float = calculator.calculate_price(info, amount)
+    price:float = ceil(calculator.calculate_price(info, amount)*100)
     print(price)
     return JSONResponse(content={"id":id, "price":price, "message":f"Area: {calculator.dxf_analyzer.getArea()}\nPerimetro: {calculator.dxf_analyzer.calculate_perimeter()}"}, status_code=200)
     
@@ -79,3 +85,7 @@ async def create_image(uploaded: UploadFile):
     except:
         return JSONResponse(content={"message":"the file was not process"}, status_code=400)
     
+@app.get("/price/{reference}/{mount}")
+async def getPriceSha256(reference:str, mount:str):
+    mensage = f"{reference}{mount}{fiat}{integrityKey}"
+    return PlainTextResponse(content=sha256(mensage.encode()).hexdigest(), status_code=200)
