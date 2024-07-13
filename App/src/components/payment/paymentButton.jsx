@@ -20,7 +20,7 @@ export function PaymentButton() {
             const script = document.createElement("script");
             script.src = "https://checkout.wompi.co/widget.js";
             script.setAttribute("data-render", "button");
-            script.setAttribute("data-public-key", "pub_prod_5j8jB2eRvmIupQbnjIkvDmgyCdOoOKT1");
+            script.setAttribute("data-public-key", "pub_test_KzbjRCY5F5jNg4VDAYUkZixf1K8PP8r3");
             script.setAttribute("data-currency", "COP");
             script.setAttribute("data-amount-in-cents", getValue);
             script.setAttribute("data-reference", getHash);
