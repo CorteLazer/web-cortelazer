@@ -31,6 +31,7 @@ Velocidad_corte_segundoxmetro = {
     "ALUM6": 24,
 }
 
+
 Valor_lamina_m2 = {  #este diccionario debe de cambiar con administración por fronetnd de un administrador con derechos
     "CR18":  100000,  #Costo lamina: área_de_la_figura * clave_del_diccionario (EJEMPLO: 0.032 m2 serían 3200 COP adicionales)
     "CR16": 150000,
@@ -39,24 +40,24 @@ Valor_lamina_m2 = {  #este diccionario debe de cambiar con administración por f
     "HR12": 210000,
     "HR1/8": 230000,
     "HR3/16": 250000,
-    "HR1/4": 280000,
-    "HR5/16": 310000,
-    "HR3/8": 350000,
-    "HR1/2": 400000,
-    "INOX20": 90000,
-    "INOX18": 130000,
-    "INOX16": 210000,
-    "INOX14": 320000,
-    "INOX12": 390000,
-    "INOX1/8": 440000,
-    "INOX3/16": 560000,
+    "HR1/4": 345000,
+    "HR5/16": 460000,
+    "HR3/8": 520000,
+    "HR1/2": 730000,
+    "INOX20": 250000,
+    "INOX18": 290000,
+    "INOX16": 370000,
+    "INOX14": 440000,
+    "INOX12": 520000,
+    "INOX1/8": 700000,
+    "INOX3/16": 850000,
     "ALUM1": 120000,
-    "ALUM1,5": 150000,
-    "ALUM2,5": 180000,
-    "ALUM3": 210000,
-    "ALUM4": 240000,
-    "ALUM5": 270000,
-    "ALUM6": 300000,
+    "ALUM1,5": 190000,
+    "ALUM2,5": 300000,
+    "ALUM3": 400000,
+    "ALUM4": 480000,
+    "ALUM5": 550000,
+    "ALUM6": 650000,
 }
 
 #porcentaje_descuento
