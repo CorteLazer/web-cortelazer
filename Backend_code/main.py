@@ -255,7 +255,7 @@ VARIABLES IMPORTANTES
 #aca solo se ejecutara cuando se llame por la linea de comando ejemplo: python main.py
 
 def calcularPrecioPorPerimetro(perimetro_en_metros, segundos_por_metro):
-    costoPorSegundo = 600
+    costoPorSegundo = 650
     tiempoCorte = perimetro_en_metros * segundos_por_metro #tiempo en segundos
     return tiempoCorte * costoPorSegundo
 
