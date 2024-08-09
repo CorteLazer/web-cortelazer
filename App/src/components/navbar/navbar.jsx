@@ -4,7 +4,7 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 
 import './navbar.css';
-import Bird from '../../assets/bird.png';
+import Bird from '../../assets/cortelazer.png';
 
 function AppNavbar() {
   return (
