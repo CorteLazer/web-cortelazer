@@ -40,7 +40,7 @@ const PreguntasFrecuentes = () => {
                 <li>Pago a 30 días</li>
                 <li>Transferencia bancaria</li>
             </ul>
-            <p>Comuníquese con <a href="mailto:support@fabworks.com">support@fabworks.com</a> antes de realizar un pedido si está interesado en un método o condiciones de pago alternativos.</p>
+            <p>Comuníquese con <a href="mailto:cortelazerpereira@gmail.com">cortelazerpereira@gmail.com</a> antes de realizar un pedido si está interesado en un método o condiciones de pago alternativos.</p>
         </div>
     </>
   );
