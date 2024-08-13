@@ -15,9 +15,9 @@ const Footer = () => {
                     <div className="col-lg-6 col-md-12 mb-4 mb-md-0">
                         <h5 className="text-uppercase">Contacto</h5>
                         <p className="align-left">
-                            <strong>Dirección:</strong> [Dirección de la empresa]<br />
-                            <strong>Teléfono:</strong> [Número de teléfono]<br />
-                            <strong>Correo Electrónico:</strong> [Correo electrónico]
+                            <strong>Dirección:</strong> Cra. 11b #40-131 <br />
+                            <strong>Teléfono:</strong> 3154090383<br />
+                            <strong>Correo Electrónico:</strong> cortelazerpereira@gmail.com
                         </p>
                     </div>
 
@@ -25,7 +25,7 @@ const Footer = () => {
                     <div className="col-lg-6 col-md-12 mb-4 mb-md-0">
                         <h5 className="text-uppercase">Síguenos</h5>
                         <p>
-                            <a href="[Enlace de red social]" className="text-white me-4">Facebook</a>
+                            <a href="https://www.facebook.com/cortelazerpereira/" className="text-white me-4">Facebook</a>
                             <a href="[Enlace de red social]" className="text-white me-4">Twitter</a>
                             <a href="[Enlace de red social]" className="text-white me-4">Instagram</a>
                         </p>

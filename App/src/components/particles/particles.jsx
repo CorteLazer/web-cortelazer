@@ -42,7 +42,7 @@ export default function ParticleComponent() {
                 }
             },
             "opacity": {
-                "value": 0.5,
+                "value": 0.3,
                 "random": false,
                 "anim": {
                     "enable": false,
@@ -114,7 +114,7 @@ export default function ParticleComponent() {
                 "bubble": {
                     "distance": 400,
                     "size": 40,
-                    "duration": 2,
+                    "duration": 5,
                     "opacity": 8,
                     "speed": 3
                 },

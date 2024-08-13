@@ -32,7 +32,7 @@ Velocidad_corte_segundoxmetro = {
 }
 
 Valor_lamina_m2 = {  #este diccionario debe de cambiar con administración por fronetnd de un administrador con derechos
-    "CR18":  100000,  #Costo lamina: área_de_la_figura * clave_del_diccionario (EJEMPLO: 0.032 m2 serían 3200 COP adicionales)
+    "CR18":  130000,  #Costo lamina: área_de_la_figura * clave_del_diccionario (EJEMPLO: 0.032 m2 serían 3200 COP adicionales)
     "CR16": 150000,
     "CR14": 200000,
     "HR14": 180000,

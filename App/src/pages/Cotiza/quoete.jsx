@@ -103,7 +103,7 @@ function CotizaComponent(){
           <div className="cotiza-container15">
             <span>Total COP: ${getValue/100}</span>
             <button type="button" className="cotiza-button button" onClick={uploadHandle}>
-              Checkout
+              Cotizar
             </button>
             <PaymentButton />
           </div>
