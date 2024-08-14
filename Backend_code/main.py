@@ -192,18 +192,6 @@ archivo_dxf = ruta_archivo
 # Calcular y mostrar el perímetro total
 perimetro_calculado = calcular_perimetro_dxf(archivo_dxf)
 
-print("\n-----------------------------------")
-
-# Mostrar los resultados
-print(f"Polilínea externa con {len(lista_ext)} puntos:")
-print('Material a utilizar =>', ancho, 'mm X', alto, 'mm igual a', ancho*alto, 'mm2')
-print ('area de la pieza=>', area_max, "mm2")
-
-print(f"El perímetro total es: {perimetro_calculado} mm")
-print("\n-----------------------------------")
-
-
-
 
 
 # Safe loading procedure (requires ezdxf v0.14):
@@ -325,24 +313,7 @@ if __name__ == "__main__":
         if cantidadDePiezas < "1" or cantidadDePiezas > "250" or not cantidadDePiezas.isdigit():
             print(f"{Fore.RED}Cantidad ingresada no válida, inténtelo nuevamente.{Fore.RED}")
         
-    x
+    
     descuento = biblioteca.get(int(cantidadDePiezas)) #Convertir a % el descuento
     precioFinalConDescuento = round((precioFinal - (precioFinal * descuento/100)), 2)
-
-
-    print(f"\n\tEL PRECIO DE LA PIEZA ES: {Fore.GREEN}{precioRedondeado}{Fore.WHITE}, considerando la cantidad de piezas a imprimir ({Fore.GREEN}{cantidadDePiezas}{Fore.WHITE}) se te asignará un descuento del {Fore.GREEN}{descuento}%{Fore.WHITE}.\n")
-
-    print(f"\tEL PRECIO FINAL CON DESCUENTO ES: {Fore.GREEN}{precioFinalConDescuento}{Fore.GREEN}\n")
-
-
-    # espesor:str = input("Por favor dime el espesor a imprimir: ")
-    # combinacion1:str = material[0:4].upper()+espesor
-    # combinacion2:str = material[0:2].upper()+espesor
-    # #aca se utiliza una tecnica la cual si un valor que devuelva get es none
-    # #se obtiene el segundo valor, tambien alrevez,
-    # #si ambos son none, devolvera none
-    # precio = Valor_lamina_m2.get(combinacion1) or Valor_lamina_m2.get(combinacion2)
-    # velocidad = Velocidad_corte_segundoxmetro.get(combinacion1) or Velocidad_corte_segundoxmetro.get(combinacion2)
-    # print(f"El precio de la pieza es: :{precio}")
-    # print(f"La velocidad de la maquina es: {1/velocidad} m/s o {velocidad} segundos por cada metro")
 
