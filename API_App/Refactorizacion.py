@@ -197,11 +197,15 @@ class Calculator:
             material_cost = material_area * material.sheet_value
 
             # Applying discounts
-            discount = 0
-            if amount >= 10:
-                discount = 10
-            elif amount >= 5:
-                discount = 5
+            discount = 60 if amount >= 250 else 57 if amount >= 225 else 55 if amount >= 200 else \
+           53 if amount >= 175 else 50 if amount >= 150 else 47 if amount >= 125 else \
+           45 if amount >= 100 else 42 if amount >= 75 else 40 if amount >= 50 else \
+           38 if amount >= 45 else 36 if amount >= 40 else 34 if amount >= 35 else \
+           32 if amount >= 30 else 30 if amount >= 25 else 28 if amount >= 20 else \
+           27 if amount >= 15 else 25 if amount >= 10 else 24 if amount >= 9 else \
+           23 if amount >= 8 else 22 if amount >= 7 else 21 if amount >= 6 else \
+           20 if amount >= 5 else 18 if amount >= 4 else 17 if amount >= 3 else \
+           15 if amount >= 2 else 0
 
             # print("corte:", cutting_time*500)
             # print("material:", material_cost)
