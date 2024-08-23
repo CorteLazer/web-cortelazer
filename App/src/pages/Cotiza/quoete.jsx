@@ -1,4 +1,4 @@
-import React, {useContext, useEffect} from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { globalContext } from '../../hooks/provider'
 import { Helmet } from 'react-helmet'
 import './Cotiza.css'
@@ -9,18 +9,26 @@ import { PaymentProvider, paymentContext } from '../../hooks/paymentProvider'
 import { PaymentButton } from '../../components/payment/paymentButton'
 
 const Cotiza = () => {
-  return(
+  return (
     <PaymentProvider>
       <CotizaComponent />
     </PaymentProvider>
   );
 }
 
-function CotizaComponent(){
-  const {getId, setFile, getValue, getMessage, setExtra, URL} = useContext(globalContext);
-  const {setString} = useContext(paymentContext);
-  const DELETEIMAGE = useDeleteImage({getId});
-  const {materialNames, getMaterial, getSymbol, getThickness, setMaterial} = useMaterial();
+function CotizaComponent() {
+  const { getId, setFile, getValue, getMessage, setExtra, URL } = useContext(globalContext);
+  const { setString } = useContext(paymentContext);
+  const DELETEIMAGE = useDeleteImage({ getId });
+  const { materialNames, getMaterial, getSymbol, getThickness, setMaterial } = useMaterial();
+
+  const [ticketInfo, setTicketInfo] = useState({
+    material: '',
+    thickness: '',
+    amount: 0,
+    totalPrice: 0
+  });
+
   useEffect(() => {
     const handleBeforeUnload = (event) => {
       event.preventDefault();
@@ -33,22 +41,31 @@ function CotizaComponent(){
       window.removeEventListener('beforeunload', handleBeforeUnload);
     };
   }, [DELETEIMAGE]);
-  function changeHandle(e){
+
+  function changeHandle(e) {
     setMaterial(e.target.value);
   }
-  function uploadHandle(e){
+
+  function uploadHandle(e) {
     e.preventDefault();
     const thickness = document.getElementById("thickness").value;
-    const amout = document.getElementById("amout").value;
-    if(thickness === "None" || amout === "" || amout === 0)
+    const amount = document.getElementById("amout").value;
+    if (thickness === "None" || amount === "" || amount === 0)
       return;
     const object = {
-      material:getSymbol,
-      amount:amout,
-      thickness:thickness
+      material: getSymbol,
+      amount: amount,
+      thickness: thickness
     }
     setExtra(object);
+    setTicketInfo({
+      material: getMaterial,
+      thickness: thickness,
+      amount: amount,
+      totalPrice: getValue / 100  // Asumiendo que getValue es el precio en centavos
+    });
   }
+
   return (
     <form className="cotiza-container">
       <Helmet>
@@ -68,10 +85,10 @@ function CotizaComponent(){
                 <span className="cotiza-text">Material</span>
                 <select onChange={changeHandle} id="material">
                   <option value="None" hidden disabled selected>Material</option>
-                  {materialNames.map((item)=>{
-                    if(getMaterial !== item)
-                      return(<option key={uuidv4()} value={item}>{item}</option>);
-                    return(<option key={uuidv4()} value={item} selected>{item}</option>);
+                  {materialNames.map((item) => {
+                    if (getMaterial !== item)
+                      return (<option key={uuidv4()} value={item}>{item}</option>);
+                    return (<option key={uuidv4()} value={item} selected>{item}</option>);
                   })}
                 </select>
               </div>
@@ -79,17 +96,18 @@ function CotizaComponent(){
                 <span className="cotiza-text01">Espesor</span>
                 <select id="thickness">
                   <option value="None" hidden disabled selected>Espesor</option>
-                  {getThickness.map((item)=>{
+                  {getThickness.map((item) => {
                     const thickness = document.getElementById("thickness").value;
-                    if(thickness !== item)
-                      return(<option key={uuidv4()} value={item}>{item}</option>);
-                    return(<option key={uuidv4()} value={item} selected>{item}</option>);
+                    if (thickness !== item)
+                      return (<option key={uuidv4()} value={item}>{item}</option>);
+                    return (<option key={uuidv4()} value={item} selected>{item}</option>);
                   })}
                 </select>
               </div>
             </div>
             <div className='inputContainer'>
-              <input type='inputContainer' placeholder='Cantidad' id="amout"/>
+              <span className="cotiza-text02">Cantidad</span>
+              <input type='number' placeholder='Cantidad' id="amout" />
             </div>
           </div>
         </div>
@@ -99,9 +117,16 @@ function CotizaComponent(){
           </div>
           <div className="cotiza-container14">
             {getMessage}
+            {ticketInfo.material && (
+              <div className="ticket-details">
+                <p>Material: {ticketInfo.material}</p>
+                <p>Espesor: {ticketInfo.thickness}</p>
+                <p>Cantidad: {ticketInfo.amount}</p>
+              </div>
+            )}
           </div>
           <div className="cotiza-container15">
-            <span>Total COP: ${getValue/100}</span>
+            <span>Total COP: ${ticketInfo.totalPrice}</span>
             <button type="button" className="cotiza-button button" onClick={uploadHandle}>
               Cotizar
             </button>
@@ -113,4 +138,5 @@ function CotizaComponent(){
     </form>
   )
 }
+
 export default Cotiza
