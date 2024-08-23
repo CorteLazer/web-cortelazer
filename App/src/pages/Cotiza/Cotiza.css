@@ -1,4 +1,3 @@
-/* Contenedor principal */
 .cotiza-container {
   width: 100%;
   display: flex;
@@ -7,136 +6,197 @@
   align-items: center;
   flex-direction: column;
   justify-content: flex-start;
-  padding: 20px;
-  background-color: #f2f2f2;
 }
 
-/* Contenedor de la sección principal de cotización */
 .cotiza-container01 {
+  flex: 0 0 auto;
+  width: auto;
+  height: auto;
   display: flex;
-  width: 100%;
-  max-width: 1200px;
-  background-color: #fff;
-  padding: 20px;
-  border: 3px dashed #808080;
-  margin: 20px 0;
-  justify-content: space-between; /* Asegura que los elementos estén separados lateralmente */
-}
-
-/* Contenedor de la cotización */
-.cotiza-main {
-  display: flex;
-  flex-direction: row; /* Cambia a disposición lateral */
+  align-items: flex-start;
   justify-content: flex-start;
-  width: 70%; /* Controla el ancho */
-  padding-right: 20px;
+  background-color: #e9e9e98b;
+  padding: 1%;
+  border: #808080 3px dashed;
 }
 
-/* Contenedor del ticket */
-.cotiza-cart {
-  width: 30%; /* Ajusta el ancho del ticket */
-  background: #f9f9f9;
-  padding: 20px;
-  border: 2px dashed #ccc;
-  text-align: left;
-  border-radius: 10px;
-  align-self: flex-start; /* Alinea el ticket en la parte superior */
-}
-
-/* Estilos de cada ítem del ticket */
-.ticket-item {
-  margin-bottom: 10px;
-  padding-bottom: 10px;
-  border-bottom: 1px dashed #ccc;
-}
-
-.ticket-item span {
-  display: block;
-  font-size: 14px;
-  margin-bottom: 5px;
-}
-
-/* Encabezado del ticket */
-.cotiza-text08 {
-  text-align: center;
-  font-weight: bold;
-  font-size: 18px;
-  margin-bottom: 15px;
-}
-
-/* Botones */
-.cotiza-button {
-  background-color: #3498db;
-  color: white;
-  padding: 10px 20px;
-  border: none;
-  cursor: pointer;
-  text-align: center;
-  margin: 10px auto;
-  display: block;
-  border-radius: 5px;
-}
-
-.cotiza-button:hover {
-  background-color: #2980b9;
-}
-
-/* Estilos para los selectores y campos de entrada */
-.cotiza-selectores {
+.cotiza-main {
+  width: 809px;
+  height: auto;
   display: flex;
-  flex-direction: column;
-  width: 100%;
-  margin-right: 20px; /* Añadir espacio entre la selección y la imagen */
+  align-items: flex-start;
+  border-color: var(--dl-color-gray-black);
+  border-width: 1px;
+  justify-content: flex-start;
 }
 
-.superContainer {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  width: 100%;
-}
-
-.selectContainer,
-.inputContainer {
-  margin-bottom: 20px;
-}
-
-.selectContainer select,
-.inputContainer input[type="number"] {
-  width: 100%;
-  padding: 10px;
-  border-radius: 10px;
-  border: 1px solid #ccc;
-  font-size: 14px;
-}
-
-/* Imagen de la cotización */
 .cotiza-imagen {
+  flex: 0 0 auto;
   display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+}
+
+.cotiza-container02 {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
   justify-content: center;
-  margin-bottom: 20px;
-  margin-right: 20px; /* Espacio entre la imagen y los selectores */
 }
 
 .cotiza-image {
   width: 243px;
   height: 243px;
   object-fit: cover;
+  margin-right: 10px;
   border-radius: 10%;
-  border: 3px solid #ccc;
 }
 
-/* Asegura que el ticket y la sección de cotización estén alineados lateralmente */
-.cotiza-container01 {
+.cotiza-form {
+  flex: 1;
   display: flex;
-  flex-direction: row; /* Asegura la disposición horizontal */
-  align-items: flex-start;
+  padding: 20px;
 }
-.ticket-details {
+
+.input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+}
+
+.input-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.cotiza-label {
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+.input-container select,
+.input-container input[type="number"] {
+  width: 100%;
+  height: 2.2rem;
+  border-radius: 10px;
+  padding: 0 10px;
+  border: 1px solid #ccc;
+}
+
+.input-container input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+.input-container input[type="number"]::-webkit-outer-spin-button,
+.input-container input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.cotiza-cart {
+  flex: 1;
+  width: 300px;
+  height: auto;
+  display: flex;
+  align-self: center;
+  align-items: flex-start;
+  border-color: var(--dl-color-gray-black);
+  border-width: 1px;
+  flex-direction: column;
+  justify-content: center;
+  padding: 15px;
+}
+
+.cotiza-container13 {
+  flex: 0 0 auto;
+  width: 100%;
+  height: auto;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+
+.cotiza-text08 {
+  align-self: center;
+}
+
+.cotiza-container14 {
+  flex: 0 0 auto;
+  width: 100%;
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+  justify-content: flex-end;
   margin-bottom: 15px;
 }
 
-.ticket-details p {
-  margin: 5px 0;
-  font-size: 14px;
+.cotiza-container15 {
+  flex: 0 0 auto;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  gap: 10px;
+}
+
+.cotiza-button {
+  width: 100%;
+  padding: 10px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.cotiza-button:hover {
+  background-color: #0056b3;
+}
+
+.cotiza-container16 {
+  width: 100%;
+  border: 2px dashed rgba(120, 120, 120, 0.4);
+  height: 299px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-end;
+}
+
+.cotiza-price-breakdown {
+  width: 100%;
+  padding: 15px;
+  margin-bottom: 20px;
+  background-color: #f8f8f8;
+  border: 2px solid #ddd;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.cotiza-price-breakdown h2 {
+  margin-top: 0;
+  margin-bottom: 15px;
+  font-size: 1.2em;
+  color: #333;
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 10px;
+}
+
+.cotiza-price-breakdown p {
+  margin: 10px 0;
+  font-size: 1em;
+  color: #555;
+}
+
+.cotiza-price-breakdown .total {
+  font-weight: bold;
+  color: #007bff;
+  font-size: 1.1em;
+  margin-top: 15px;
+  border-top: 1px solid #ddd;
+  padding-top: 10px;
 }
