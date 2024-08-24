@@ -189,4 +189,12 @@
   }
   
 }
-
+.file-title {
+  font-size: 24px; /* Tamaño de fuente grande */
+  font-weight: bold; /* Hace que el texto sea negrita */
+  text-align: center; /* Centra el texto */
+  color: #333; /* Color de texto oscuro */
+  margin-bottom: 20px; /* Espacio debajo del título */
+  text-transform: uppercase; /* Transforma el texto a mayúsculas */
+  letter-spacing: 1.5px; /* Espaciado entre letras */
+}
