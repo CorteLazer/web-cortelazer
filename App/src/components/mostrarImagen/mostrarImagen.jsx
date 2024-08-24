@@ -1,20 +1,19 @@
-import React, { useState, useEffect, useContext  } from 'react';
-import './mostrarImagen.css';
+import React, { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { globalContext } from '../../hooks/provider';
-
+import './mostrarImagen.css';
 
 const ImageUploader = () => {
   const [selectedFile, setSelectedFile] = useState(null);
   const [error, setError] = useState(null);
-  const {setFile} = useContext(globalContext);
+  const { setFile } = useContext(globalContext);
   const navigate = useNavigate();
-  
+
   const handleFileChange = (event) => {
     setError("");
     const file = event.target.files[0];
-    if(!file.name.endsWith(".dxf")){
-      setError("La extension de este archivo no es .dxf");
+    if (file && !file.name.endsWith(".dxf")) {
+      setError("Por favor, seleccione un archivo con extensión .dxf");
       return;
     }
     setSelectedFile(file);
@@ -22,25 +21,37 @@ const ImageUploader = () => {
 
   const handleUpload = async () => {
     if (!selectedFile) {
-      setError('Por favor, selecciona una imagen antes de subir.');
-      console.log('Por favor, selecciona una imagen antes de subir.');
+      setError('Por favor, seleccione un archivo antes de continuar.');
       return;
     }
-    try { 
+    try {
       setFile(selectedFile);
       navigate("/Cotizando");
-    }catch (error) {
-      console.error('Error uploading image:', error);
-      setError('ERROR AL SUBIR LA IMAGEN');
+    } catch (error) {
+      console.error('Error al cargar el archivo:', error);
+      setError('Ha ocurrido un error al cargar el archivo. Por favor, inténtelo de nuevo.');
     }
   };
 
   return (
     <div className='file-uploader'>
-      <input type='file' onChange={handleFileChange} />
-      <button onClick={handleUpload} className='button-files'>SUBIR</button>
-
-      {error && <p style={{ color: 'red' }}>{error}</p>}
+      <h2>Carga de archivo DXF</h2>
+      <div className='file-input-container'>
+        <label htmlFor='file-input' className='file-input-label'>
+          {selectedFile ? selectedFile.name : 'Seleccionar archivo'}
+        </label>
+        <input 
+          id='file-input'
+          type='file' 
+          onChange={handleFileChange} 
+          accept='.dxf'
+          className='file-input'
+        />
+      </div>
+      <button onClick={handleUpload} className='upload-button'>
+        Cargar archivo
+      </button>
+      {error && <p className='error-message'>{error}</p>}
     </div>
   );
 };
