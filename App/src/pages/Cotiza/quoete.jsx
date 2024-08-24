@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState, useRef } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { globalContext } from '../../hooks/provider';
 import { Helmet } from 'react-helmet';
 import './Cotiza.css';
@@ -17,22 +17,15 @@ const Cotiza = () => {
 };
 
 function CotizaComponent() {
-  const { getId, setFile, getValue, getMessage, setExtra, URL } = useContext(globalContext);
+  const { getId, setFile, getValue, setExtra, URL } = useContext(globalContext);
   const { setString } = useContext(paymentContext);
   const DELETEIMAGE = useDeleteImage({ getId });
   const { materialNames, getMaterial, getSymbol, getThickness, setMaterial } = useMaterial();
-  const thicknessRef = useRef(null);
-  const amountRef = useRef(null);
+  
+  const [thickness, setThickness] = useState('');
+  const [amount, setAmount] = useState('');
 
   useEffect(() => {
-    // Restore data from localStorage on mount
-    const savedMaterial = localStorage.getItem('material');
-    const savedThickness = localStorage.getItem('thickness');
-    const savedAmount = localStorage.getItem('amount');
-    if (savedMaterial) setMaterial(savedMaterial);
-    if (savedThickness) thicknessRef.current.value = savedThickness;
-    if (savedAmount) amountRef.current.value = savedAmount;
-
     const handleBeforeUnload = (event) => {
       event.preventDefault();
       event.returnValue = '';
@@ -43,14 +36,7 @@ function CotizaComponent() {
     return () => {
       window.removeEventListener('beforeunload', handleBeforeUnload);
     };
-  }, [DELETEIMAGE, setFile, setMaterial]);
-
-  useEffect(() => {
-    // Save data to localStorage whenever they change
-    localStorage.setItem('material', getMaterial);
-    localStorage.setItem('thickness', thicknessRef.current?.value || '');
-    localStorage.setItem('amount', amountRef.current?.value || '');
-  }, [getMaterial]);
+  }, [DELETEIMAGE, setFile]);
 
   function changeHandle(e) {
     setMaterial(e.target.value);
@@ -58,12 +44,10 @@ function CotizaComponent() {
 
   function uploadHandle(e) {
     e.preventDefault();
-    const thickness = thicknessRef.current.value;
-    const amount = parseInt(amountRef.current.value);
-    if (thickness === "None" || isNaN(amount) || amount === 0) return;
+    if (thickness === "None" || isNaN(parseInt(amount)) || parseInt(amount) === 0) return;
     const object = {
       material: getSymbol,
-      amount: amount,
+      amount: parseInt(amount),
       thickness: thickness
     };
     setExtra(object);
@@ -73,7 +57,7 @@ function CotizaComponent() {
   const total = subtotal;
 
   return (
-    <form className="cotiza-container">
+    <form className="cotiza-container" onSubmit={(e) => e.preventDefault()}>
       <Helmet>
         <title>Cotización</title>
         <meta property="og:title" content="Previous Elderly Mandrill" />
@@ -89,8 +73,8 @@ function CotizaComponent() {
             <div className="input-group">
               <div className="input-container">
                 <label className="cotiza-label" htmlFor="material">Material</label>
-                <select onChange={changeHandle} id="material">
-                  <option value="None" hidden disabled>Selecciona un material</option>
+                <select onChange={changeHandle} id="material" value={getMaterial}>
+                  <option value="None" hidden>Selecciona un material</option>
                   {materialNames.map((item) => (
                     <option key={uuidv4()} value={item}>{item}</option>
                   ))}
@@ -99,8 +83,12 @@ function CotizaComponent() {
 
               <div className="input-container">
                 <label className="cotiza-label" htmlFor="thickness">Espesor</label>
-                <select ref={thicknessRef} id="thickness">
-                  <option value="None" hidden disabled>Selecciona el espesor</option>
+                <select 
+                  id="thickness" 
+                  value={thickness} 
+                  onChange={(e) => setThickness(e.target.value)}
+                >
+                  <option value="None" hidden>Selecciona el espesor</option>
                   {getThickness.map((item) => (
                     <option key={uuidv4()} value={item}>{item}</option>
                   ))}
@@ -109,7 +97,13 @@ function CotizaComponent() {
 
               <div className='input-container'>
                 <label className="cotiza-label" htmlFor="amount">Cantidad</label>
-                <input type='number' placeholder='Cantidad' ref={amountRef} id="amount" />
+                <input 
+                  type='number' 
+                  placeholder='Cantidad' 
+                  id="amount"
+                  value={amount}
+                  onChange={(e) => setAmount(e.target.value)}
+                />
               </div>
             </div>
           </div>
@@ -122,8 +116,8 @@ function CotizaComponent() {
           <div className="cotiza-price-breakdown">
             <h2>Detalles de la cotización</h2>
             <p>Material: {getMaterial}</p>
-            <p>Espesor: {thicknessRef.current?.value}</p>
-            <p>Cantidad: {amountRef.current?.value}</p>
+            <p>Espesor: {thickness}</p>
+            <p>Cantidad: {amount}</p>
             {getValue > 0 && (
               <>
                 <p className="total">Total COP: ${total.toLocaleString('es-CO', { maximumFractionDigits: 0 })}</p>
