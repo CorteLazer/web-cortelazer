@@ -210,7 +210,7 @@ class Calculator:
             # print("corte:", cutting_time*500)
             # print("material:", material_cost)
 
-            final_price = (cutting_time * 800) + (material_cost * (1 - discount / 100))
+            final_price = ((cutting_time * 1000) + (material_cost)) * (1 - discount / 100))
             return final_price * amount
         else:
             return -1
