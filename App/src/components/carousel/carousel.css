@@ -1,0 +1,35 @@
+
+  
+  .carousel-item {
+    text-align: center;
+  }
+
+.carousel-caption {
+    font-size: 2vw;
+    margin: 5% 15%;
+    font-weight: 700;
+    text-transform: uppercase;
+  }
+.imagen-carrusel {
+    width: 50%;
+    height: 100%;
+    object-fit: cover;
+    margin: 0 auto;
+    /* Quiero que la imagen se vea mas oscura */
+    filter: brightness(50%);
+
+  }
+
+  /* Estilos para pantallas más pequeñas (responsivo) */
+  @media (max-width: 768px) {
+    .imagen-carrusel {
+        width: 80%;
+      }
+    .carousel-caption {
+    font-size: 3vw;
+    margin: 0% 15%;
+    font-weight: 700;
+    text-transform: uppercase;
+    }
+  }
+  

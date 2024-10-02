@@ -1,0 +1,56 @@
+.align-left {
+  text-align: left;
+  margin-left: 10vw;
+}
+
+@import '@fortawesome/fontawesome-free/css/all.min.css';
+
+
+/* Tus otros estilos CSS */
+.bg-dark {
+    background-color: #343a40;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.text-white {
+    color: white;
+}
+/* footer.css */
+
+footer {
+  padding: 20px 0;
+}
+
+footer p {
+  margin: 0;
+  padding: 0;
+}
+
+footer .text-uppercase {
+  font-weight: bold;
+}
+
+footer i {
+  margin-right: 10px; /* Espaciado entre ícono y texto */
+}
+
+@media (max-width: 768px) {
+  footer {
+      padding: 10px;
+  }
+  
+  footer .container {
+      padding: 0;
+  }
+
+  footer h5 {
+      font-size: 16px;
+  }
+
+  footer p {
+      font-size: 14px;
+  }
+}

@@ -1,0 +1,36 @@
+.acordeon {
+    margin: 0 10%;
+    margin-bottom: 5%;
+}
+/* Agrega estos estilos al archivo preguntasFrecuentes.css */
+
+.terminos-pago {
+    margin-top: 20px;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #f8f8f8;
+  }
+  
+  .terminos-pago p {
+    margin-bottom: 10px;
+  }
+  
+  .terminos-pago ul {
+    list-style-type: disc;
+    margin-left: 20px;
+  }
+  
+  .terminos-pago li {
+    margin-bottom: 5px;
+  }
+  
+  .terminos-pago a {
+    color: #007bff;
+    text-decoration: underline;
+  }
+  
+  .terminos-pago a:hover {
+    color: #0056b3;
+  }
+  
