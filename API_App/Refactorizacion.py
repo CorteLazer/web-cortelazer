@@ -1,18 +1,21 @@
-import ezdxf
+from collections import deque
 from ezdxf import recover
 from ezdxf.addons.drawing import RenderContext, Frontend
 from ezdxf.addons.drawing.matplotlib import MatplotlibBackend
 import math
 import os
 import matplotlib.pyplot as plt
-from bibliotecas import Velocidad_corte_segundoxmetro, Valor_lamina_m2, biblioteca, calibres_ALUM, calibres_CR, calibres_HR, calibres_INOX
+from bibliotecas import Velocidad_corte_segundoxmetro, Valor_lamina_m2
+from errors import NotClosedFiguredException, AuditorException, InterpoleFigureError
 
 class DXFGraphic:
     def __init__(self, entity):
         self.entity = entity
 
+    def isClose(self):
+        return True
+
     def calculate_perimeter(self):
-        # Método genérico, puede ser sobrescrito por clases hijas según el tipo de entidad
         return 0
 
 class DXFLine(DXFGraphic):
@@ -20,6 +23,9 @@ class DXFLine(DXFGraphic):
         start = self.entity.dxf.start
         end = self.entity.dxf.end
         return math.sqrt((start[0] - end[0])**2 + (start[1] - end[1])**2)
+    
+    def isClose(self):
+        return self.entity.closed
 
 class DXFArc(DXFGraphic):
     def calculate_perimeter(self):
@@ -37,26 +43,26 @@ class DXFLWPolyline(DXFGraphic):
     def calculate_perimeter(self):
         perimeter = 0
         points = self.entity.get_points('xyb')
-
         for i in range(len(points) - 1):
             point1 = points[i]
             point2 = points[i + 1]
             distance = math.sqrt((point1[0] - point2[0])**2 + (point1[1] - point2[1])**2)
             perimeter += distance
-
         if self.entity.is_closed:
             first_point = points[0]
             last_point = points[-1]
             distance = math.sqrt((first_point[0] - last_point[0])**2 + (first_point[1] - last_point[1])**2)
             perimeter += distance
         return perimeter
+    
+    def isClose(self):
+        return self.entity.closed
 
 class DFXSpline(DXFGraphic):
     def calculate_perimeter(self):
-        DISTANCE = 0.1
+        DISTANCE = 0.0
         points = list(self.entity.flattening(DISTANCE))
         perimeter = 0.0
-
         for i in range(len(points) - 1):
             pointOne = points[i]
             pointTwo = points[i + 1]
@@ -68,7 +74,6 @@ class DXFElipse(DXFGraphic):
     def calculate_perimeter(self):
         a = self.entity.dxf.major_axis.magnitude
         b = self.entity.dxf.minor_axis.magnitude
-
         h = ((a - b)**2) / ((a + b)**2)
         perimeter = math.pi * (a + b) * (1 + (3 * h) / (10 + math.sqrt(4 - 3 * h)))
         return perimeter
@@ -81,13 +86,19 @@ class DXFAnalyzer:
             MATERIALES.add_material(Material())
         return MATERIALES
 
-    def __init__(self, file_path):
+    def __init__(self, file_path, verifible:bool = True):
         self.file_path = file_path
-        self.doc = ezdxf.readfile(file_path)
+        self.doc, auditor = recover.readfile(self.file_path)
         self.msp = self.doc.modelspace()
+        if not verifible:
+            return
+        if auditor.has_errors:
+            raise AuditorException()
+        self.verifyFile()
 
     def getArea(self):
-        external_polyline, maxArea = self.get_external_polyline()
+        external_polyline, _ = self.get_external_polyline()
+        external_polyline = external_polyline.get_points()
         width = max(external_polyline, key=lambda p: p[0])[0] - min(external_polyline, key=lambda p: p[0])[0]
         height = max(external_polyline, key=lambda p: p[1])[1] - min(external_polyline, key=lambda p: p[1])[1]
         return width * height
@@ -95,14 +106,12 @@ class DXFAnalyzer:
     def get_external_polyline(self):
         area_max = 0
         external_polyline = None
-
         for entity in self.msp:
             if entity.dxftype() == 'LWPOLYLINE' and entity.is_closed:
                 area = self._calculate_polyline_area(entity.get_points())
                 if area > area_max:
                     area_max = area
-                    external_polyline = entity.get_points()
-
+                    external_polyline = entity
         return external_polyline, area_max
 
     def _calculate_polyline_area(self, points):
@@ -136,17 +145,65 @@ class DXFAnalyzer:
             case _:
                 shape = DXFGraphic(entity)
         return shape
+    
+    def angle_between(self, a, b, p):
+        ax, ay = a[:2]
+        bx, by = b[:2]
+        px, py = p
+        angle1 = math.atan2(ay - py, ax - px)
+        angle2 = math.atan2(by - py, bx - px)
+        angle = angle2 - angle1
+        if angle > math.pi:
+            angle -= 2 * math.pi
+        if angle < -math.pi:
+            angle += 2 * math.pi
+        
+        return angle
+    
+    def pointIntoFigure(self, punto, polilinea_externa):
+        puntos_externa = polilinea_externa.get_points()
+        angulo = 0.0
+        n = len(puntos_externa)
+        for i in range(n):
+            angulo += self.angle_between(puntos_externa[i], puntos_externa[(i+1)%n], punto)
+        return abs(angulo) > math.pi
+    
+    def traslateFigure(self, polilinea1, polilinea2):
+        puntos1 = polilinea1.get_points()
+        puntos2 = polilinea2.get_points()
+        for punto in puntos1:
+            if self.pointIntoFigure(punto[:2], polilinea2):
+                return True
+        for punto in puntos2:
+            if self.pointIntoFigure(punto[:2], polilinea1):
+                return True
+        return False
+
+    def verifyFile(self):
+        externalLine, _ = self.get_external_polyline()
+        cola = deque(self.msp)
+        while len(cola) > 0:
+            figure = cola.pop()
+            graphic = self.create_dxf_graphic(figure)
+            if not graphic.isClose():
+                raise NotClosedFiguredException()
+            if id(externalLine) == id(figure):
+                continue
+            for point in figure.get_points():
+                if not self.pointIntoFigure(point[:2], externalLine):
+                    raise InterpoleFigureError()
+            for _figure in cola:#here
+                if id(_figure) != id(figure) and id(externalLine) != id(_figure) and self.traslateFigure(figure, _figure):
+                    raise InterpoleFigureError()
+                
 
     def draw_dxf(self, filePath:str):
-        doc, auditor = recover.readfile(self.file_path)
-        if not auditor.has_errors:
-            fig = plt.figure()
-            ax = fig.add_axes([0, 0, 1, 1])
-            ctx = RenderContext(doc)
-            out = MatplotlibBackend(ax)
-            Frontend(ctx, out).draw_layout(doc.modelspace(), finalize=True)
-            url = filePath
-            fig.savefig(url, dpi=300)
+        fig = plt.figure()
+        ax = fig.add_axes([0, 0, 1, 1])
+        ctx = RenderContext(self.doc)
+        out = MatplotlibBackend(ax)
+        Frontend(ctx, out).draw_layout(self.msp, finalize=True)
+        fig.savefig(filePath, dpi=300)
 
 
 class Material:
@@ -185,32 +242,16 @@ class Calculator:
 
     def calculate_price(self, material:Material, amount:int):
         perimeter = self.dxf_analyzer.calculate_perimeter()
-
-        # Calculating material area and perimeter
         material_area = self.dxf_analyzer.getArea()/1000000
-        # print(f"Material area: {material_area} mm^2")
-        # print(f"Perimeter: {perimeter} mm")
-
         if material:
-            cutting_time = perimeter / 1000 * material.cutting_speed  # Converting perimeter from mm to meters
-            # print("material cost", material.sheet_value)
+            cutting_time = perimeter / 1000 * material.cutting_speed 
             material_cost = material_area * material.sheet_value
-
-            # Applying discounts
-            discount = 60 if amount >= 250 else 57 if amount >= 225 else 55 if amount >= 200 else \
-           53 if amount >= 175 else 50 if amount >= 150 else 47 if amount >= 125 else \
-           45 if amount >= 100 else 42 if amount >= 75 else 40 if amount >= 50 else \
-           38 if amount >= 45 else 36 if amount >= 40 else 34 if amount >= 35 else \
-           32 if amount >= 30 else 30 if amount >= 25 else 28 if amount >= 20 else \
-           27 if amount >= 15 else 25 if amount >= 10 else 24 if amount >= 9 else \
-           23 if amount >= 8 else 22 if amount >= 7 else 21 if amount >= 6 else \
-           20 if amount >= 5 else 18 if amount >= 4 else 17 if amount >= 3 else \
-           15 if amount >= 2 else 0
-
-            # print("corte:", cutting_time*500)
-            # print("material:", material_cost)
-
-            final_price = ((cutting_time * 500) + (material_cost)) * (1 - discount / 100)
+            discount = 0
+            if amount >= 10:
+                discount = 10
+            elif amount >= 5:
+                discount = 5
+            final_price = (cutting_time * 500) + (material_cost * (1 - discount / 100))
             return final_price * amount
         else:
             return -1
@@ -222,10 +263,3 @@ if __name__ == "__main__":
     print(1)
     dxf_analyzer = DXFAnalyzer(file_path)
     dxf_analyzer.draw_dxf()
-    # material_library = MaterialLibrary()
-    # print(2)
-    # material_library.add_material(Material("hr", "12", 19, 130000))
-    # print(3)
-    # calculator = Calculator(dxf_analyzer, material_library)
-    # calculator.calculate_price()
-    # print(4)

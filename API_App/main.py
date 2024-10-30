@@ -4,7 +4,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse, FileResponse, PlainTextResponse
 from uuid import uuid4
 from Refactorizacion import DXFAnalyzer, MaterialLibrary, Material, Calculator
-from hashlib import sha256
+from hashlib import sha256, md5
 from math import ceil
 
 MATERIALS:MaterialLibrary = MaterialLibrary()
@@ -36,7 +36,7 @@ app.add_middleware(
 def get_price(id:str, material:str, thickness:str, amount:int):
     thickness = thickness.replace("x", "/")
     filePath = os.path.join(os.path.dirname(os.path.abspath(__file__)), "Files", f"{id}.dxf")
-    dxf = DXFAnalyzer(filePath)
+    dxf = DXFAnalyzer(filePath, verifible=False)
     info:Material = MATERIALS.get_material(material, thickness)
     if info == None:
         info = MaterialLibrary.get_material_from_dicts(material, thickness)
@@ -52,40 +52,55 @@ def get_price(id:str, material:str, thickness:str, amount:int):
 
 @app.get("/image/{id}")
 def get_image(id:str):
-    imagepath = os.path.join(os.path.dirname(os.path.abspath(__file__)), "Images", f"{id}.jpg")
-    return FileResponse(imagepath, status_code=200, filename="image.jpg", media_type="application/jpg")
+    try:
+        imagepath = os.path.join(os.path.dirname(os.path.abspath(__file__)), "Images", f"{id}.jpg")
+        if not os.path.exists(imagepath):
+            return PlainTextResponse("pepe")
+        return FileResponse(imagepath, status_code=200, filename="image.jpg", media_type="application/jpg")
+    except Exception as e:
+        return JSONResponse(content={"message":str(e)}, status_code=400)
 
 @app.delete("/image/{id}")
 def delete_image(id:str):
-    imagepath = os.path.join(os.path.dirname(os.path.abspath(__file__)), "Images", f"{id}.jpg")
-    filePath = os.path.join(os.path.dirname(os.path.abspath(__file__)), "Files", f"{id}.dxf")
     try:
+        imagepath = os.path.join(os.path.dirname(os.path.abspath(__file__)), "Images", f"{id}.jpg")
+        filePath = os.path.join(os.path.dirname(os.path.abspath(__file__)), "Files", f"{id}.dxf")
         os.remove(imagepath)
         os.remove(filePath)
         return JSONResponse(content={"message":"successful"})
-    except:
-        return JSONResponse(content={"message":"The files was not delete"}, status_code=400)
+    except Exception as e:
+        return JSONResponse(content={"message":str(e)}, status_code=400)
 
 
 @app.post("/image")
 async def create_image(uploaded: UploadFile):
-    if uploaded == None:
-        return JSONResponse(content={"message":"error, the file was not uploading"}, status_code=400)
-    id = str(uuid4())
-    filePath = os.path.join(os.path.dirname(os.path.abspath(__file__)), "Files", f"{id}.dxf")
-    imagepath = os.path.join(os.path.dirname(os.path.abspath(__file__)), "Images", f"{id}.jpg")
     try:
+        if uploaded == None:
+            return JSONResponse(content={"message":"error, the file was not uploading"}, status_code=400)
+        content = await uploaded.read()
+        id = md5(content).hexdigest()
+        filePath = os.path.join(os.path.dirname(os.path.abspath(__file__)), "Files", f"{id}.dxf")
+        imagepath = os.path.join(os.path.dirname(os.path.abspath(__file__)), "Images", f"{id}.jpg")
+        if os.path.exists(filePath):
+            return JSONResponse(content={"message":"success", "id":id}, status_code=200)
         with open(filePath, "wb") as File:
-            content = await uploaded.read()
             File.write(content)
-            File.close()
         dxf = DXFAnalyzer(filePath)
+        print("xd")
         dxf.draw_dxf(imagepath)
         return JSONResponse(content={"message":"success", "id":id}, status_code=200)
-    except:
-        return JSONResponse(content={"message":"the file was not process"}, status_code=400)
+    except IOError as e:
+        return JSONResponse(content={"message":"El formato no es compatible"}, status_code=400)
+    except Exception as e:
+        return JSONResponse(content={"message":str(e)}, status_code=500)
+    finally:
+        if(os.path.exists(filePath) and not os.path.exists(imagepath)):
+            os.remove(filePath)
     
 @app.get("/price/{reference}/{mount}")
 async def getPriceSha256(reference:str, mount:str):
-    mensage = f"{reference}{mount}{fiat}{integrityKey}"
-    return PlainTextResponse(content=sha256(mensage.encode()).hexdigest(), status_code=200)
+    try:
+        mensage = f"{reference}{mount}{fiat}{integrityKey}"
+        return PlainTextResponse(content=sha256(mensage.encode()).hexdigest(), status_code=200)
+    except Exception as e:
+        return JSONResponse(content={"message":str(e)}, status_code=500)
